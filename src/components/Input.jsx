@@ -1,7 +1,10 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import styled from 'styled-components';
+import DeleteButton from './DeleteButton';
+
 
 const Area = styled.div`
+    position: relative;
     margin: 20px 0;
     padding: 10px;
     display: flex;
@@ -14,7 +17,6 @@ const Area = styled.div`
     background: white;
     font-size: 40px;
     font-family: 'Roboto';
-    color: gray;
     text-align: end;
 
     div {
@@ -22,22 +24,44 @@ const Area = styled.div`
         outline: none;
         overflow: hidden;
 
-        border: 3px solid red;
+        &[contenteditable][placeholder]:empty:before {
+            content: attr(placeholder);
+            color: gray;
+            background-color: transparent;
+        }
     }
-
 `
 
 const Input = ({ currentValue }) => {
-    const [value, setValue] = useState(currentValue);
+    const [value, setValue] = useState('');
 
     const setValueHandler = (e) => {
-        setValue(e.target.textContent)
-        console.log(value)
+        setValue(value => value = e.target.textContent)
     }
+
+    const deleteCharHandler = () => {
+        setValue(value => value.slice(0, -1))
+    }
+
+
+
+    function setCaretPosition() {
+        const range = document.createRange();
+        range.selectNodeContents(document.querySelector('#editable'));
+        range.collapse(false);
+        const sel = window.getSelection();
+        sel.removeAllRanges();
+        sel.addRange(range);
+    }
+
+    useEffect(() => {
+        setCaretPosition()
+    }, [value])
 
     return (
         <Area>
-            <div contentEditable value={value} onInput={setValueHandler}></div>
+            <div placeholder="0" id="editable" contentEditable suppressContentEditableWarning={true} onInput={setValueHandler}>{value}</div>
+            <DeleteButton deleteCharHandler={deleteCharHandler} />
         </Area>
 
     )
