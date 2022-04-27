@@ -1,6 +1,11 @@
-import { useState, useEffect } from 'react';
+import { useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import styled from 'styled-components';
 import DeleteButton from './DeleteButton';
+
+import ContentEditable from 'react-contenteditable';
+
+import { updateCalculateValueAction } from '../store/updateCalculateValue';
 
 
 const Area = styled.div`
@@ -33,16 +38,16 @@ const Area = styled.div`
 `
 
 const Input = ({ currentValue }) => {
-    const [value, setValue] = useState('');
+    const value = useSelector((state) => state.value.value);
+    const dispatch = useDispatch();
 
     const setValueHandler = (e) => {
-        setValue(value => value = e.target.textContent)
+        dispatch(updateCalculateValueAction(e.target.value))
     }
 
     const deleteCharHandler = () => {
-        setValue(value => value.slice(0, -1))
+        dispatch(updateCalculateValueAction(value.toString().slice(0, -1)))
     }
-
 
 
     function setCaretPosition() {
@@ -55,15 +60,20 @@ const Input = ({ currentValue }) => {
     }
 
     useEffect(() => {
-        setCaretPosition()
+        setCaretPosition();
     }, [value])
 
     return (
         <Area>
-            <div placeholder="0" id="editable" contentEditable suppressContentEditableWarning={true} onInput={setValueHandler}>{value}</div>
+            <ContentEditable 
+                placeholder="0" 
+                id="editable" 
+                html={currentValue.toString()}
+                onChange={e => setValueHandler(e)}
+
+            />   
             <DeleteButton deleteCharHandler={deleteCharHandler} />
         </Area>
-
     )
 }
 
