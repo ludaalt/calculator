@@ -5,7 +5,7 @@ import thunk from 'redux-thunk';
 import { updateCalculateValue } from './updateCalculateValue';
 
 const rootReducer = combineReducers({
-  value: updateCalculateValue,
+  data: updateCalculateValue,
 });
 
 const store = createStore(rootReducer, composeWithDevTools(applyMiddleware(thunk)));
