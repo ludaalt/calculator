@@ -2,8 +2,9 @@
 
 **Используемые технологии**
 
+## Available Scripts
 - Create React App
 - Redux
 - styled-component
 
-![Image alt](https://github.com/ludaalt/Plant_Shop/raw/main/public/app.jpg)
+![Image alt](https://github.com/ludaalt/calculator/raw/main/public/app.jpg)
