@@ -1,8 +1,6 @@
 # Калькулятор
 
-**Используемые технологии**
-
-## Available Scripts
+## Используемые технологии
 - Create React App
 - Redux
 - styled-component
