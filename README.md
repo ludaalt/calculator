@@ -2,7 +2,6 @@
 
 **Используемые технологии**
 
-## Available Scripts
 - Create React App
 - Redux
 - styled-component
